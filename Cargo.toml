@@ -1,0 +1,48 @@
+[package]
+name = "ytdl-mini"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]
+description = "A minimalist YouTube downloader desktop app using yt-dlp"
+license = "MIT"
+
+[[bin]]
+name = "ytdl-mini"
+path = "src/main.rs"
+
+[dependencies]
+# GUI Framework - GPUI from Zed
+gpui = { git = "https://github.com/zed-industries/zed" }
+
+# Async runtime
+tokio = { version = "1.0", features = ["full"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# HTTP client
+reqwest = { version = "0.11", features = ["json"] }
+
+# File system operations
+dirs = "5.0"
+
+# Process management
+which = "6.0"
+
+# URL parsing and validation
+url = "2.5"
+
+# Date and time
+chrono = { version = "0.4", features = ["serde"] }
+
+# Logging
+log = "0.4"
+env_logger = "0.11"
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# UUID generation
+uuid = { version = "1.0", features = ["v4", "serde"] }
