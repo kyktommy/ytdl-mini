@@ -2,8 +2,11 @@ mod core;
 mod ui;
 mod utils;
 
+use gpui::{
+    px, size, App, AppContext, Application, Bounds, KeyBinding, TitlebarOptions, WindowBounds,
+    WindowOptions,
+};
 use log::info;
-use gpui::{App, Application, Bounds, size, px, WindowOptions, WindowBounds, AppContext, KeyBinding};
 
 fn main() {
     // Initialize logging
@@ -13,6 +16,9 @@ fn main() {
 
     // Create and run the GPUI application
     Application::new().run(|cx: &mut App| {
+        // Initialize gpui-component
+        gpui_component::init(cx);
+
         // Set up key bindings for text input
         cx.bind_keys([
             KeyBinding::new("backspace", ui::Backspace, None),
@@ -23,10 +29,18 @@ fn main() {
         cx.open_window(
             WindowOptions {
                 window_bounds: Some(WindowBounds::Windowed(bounds)),
+                titlebar: Some(TitlebarOptions {
+                    title: Some("ytdl-mini".into()),
+                    ..Default::default()
+                }),
                 ..Default::default()
             },
-            |_, cx| {
-                cx.new(|cx| ui::App::new(cx))
+            |window, cx| {
+                // Create the app view
+                let app_view = cx.new(|cx| ui::App::new(cx));
+
+                // Wrap it in a Root component
+                cx.new(|cx| gpui_component::Root::new(app_view.into(), window, cx))
             },
         )
         .unwrap();
